@@ -36,7 +36,7 @@ public class TNAContorller {
 	@GetMapping("/tnaDetail")
 	public void tnaDetail() {}
 	
-	@GetMapping(value = "/tnaList", produces = "application/json; charset=UTF-8")    	// Data Tables(API)를 ajax로 조회하여 json 문자열 변환
+	@GetMapping(value = "/tnaList", produces = "application/json; charset=UTF-8")    		// Data Tables(API)를 ajax로 조회하여 json 문자열 변환
 	@ResponseBody
 	public List<TNADTO> dateSearch(@RequestParam String find){
 		
@@ -49,11 +49,11 @@ public class TNAContorller {
 		for (TNADTO tna : data) {
 			String name = tna.getMember().getName();					// 직원 이름
 			int number = tna.getMember().getEmpNo();					// 사번
-			String dept = tna.getMember().getDept().getName();			// 부서명
-			String company = tna.getMember().getCompany().getName();	// 지부명
-			String rank = tna.getMember().getRank().getName();			// 직급명
+			String dept = tna.getMember().getDept().getName();				// 부서명
+			String company = tna.getMember().getCompany().getName();			// 지부명
+			String rank = tna.getMember().getRank().getName();				// 직급명
 			
-			if(tna.getCode() == 1) {									// 근태코드 - 코드 번호에 따라 근태상황이 처리된다.
+			if(tna.getCode() == 1) {							// 근태코드 - 코드 번호에 따라 근태상황이 처리된다.
 				tna.setStatus("출근");
 			} else if(tna.getCode() == 2) {
 				tna.setStatus("지각");
@@ -91,8 +91,8 @@ public class TNAContorller {
 	@GetMapping("/detail")		// 근태내역 상세 조회
 	public ModelAndView detailMember(ModelAndView mv, @RequestParam String name) {
 		
-		List<TNADTO> member = tnaService.selectDetail(name);		// 선택한 인원의 내역 조회
-		MemberDTO member1 = null;									// 근태내역 추가를 위한 부분(HTML)에서 사용하기 위한 부분
+		List<TNADTO> member = tnaService.selectDetail(name);					// 선택한 인원의 내역 조회
+		MemberDTO member1 = null;								// 근태내역 추가를 위한 부분(HTML)에서 사용하기 위한 부분
 		for (TNADTO tna : member) {
 			
 			if(tna.getCode() == 1) {
@@ -116,7 +116,7 @@ public class TNAContorller {
 		return mv;
 	}
 	
-	@GetMapping("/regiTna")			// 근태내역 수정
+	@GetMapping("/regiTna")										// 근태내역 수정
 	public ModelAndView regiTna(ModelAndView mv, @RequestParam String name, @RequestParam String date,
 			@RequestParam int selectStat) {
 		MemberDTO member = new MemberDTO();
@@ -129,14 +129,14 @@ public class TNAContorller {
 		
 		tnaService.regiTna(tna);
 		
-		mv.addObject("name", name);			// redirect로 detail 메소드로 보내기위한 매개변수
+		mv.addObject("name", name);								// redirect로 detail 메소드로 보내기위한 매개변수
 		
 		mv.setViewName("redirect:/admin/detail");
 		
 		return mv;
 	}
 	
-	@GetMapping("/deleteWork")			// 근태내역 삭제
+	@GetMapping("/deleteWork")									// 근태내역 삭제
 	public ModelAndView deletWork(ModelAndView mv, @RequestParam String name, @RequestParam String date) {
 		
 		MemberDTO member = new MemberDTO();
@@ -148,14 +148,14 @@ public class TNAContorller {
 		
 		tnaService.deletWork(tna);
 		
-		mv.addObject("name", name);		// redirect로 detail 메소드로 보내기위한 매개변수
+		mv.addObject("name", name);								// redirect로 detail 메소드로 보내기위한 매개변수
 		
 		mv.setViewName("redirect:/admin/detail");
 		
 		return mv;
 	}
 	
-	@GetMapping("/newWork")			// 근태내역 추가
+	@GetMapping("/newWork")										// 근태내역 추가
 	public ModelAndView newWork(ModelAndView mv, @RequestParam String name, @RequestParam String date,
 			@RequestParam int selectStat) {
 		
@@ -163,13 +163,13 @@ public class TNAContorller {
 		member.setName(name);
 		
 		TNADTO tna = new TNADTO();
-		tna.setCode(selectStat);		// 근태 코드
+		tna.setCode(selectStat);								// 근태 코드
 		tna.setDate(date);				
 		tna.setMember(member);
 		
 		tnaService.newWork(tna);
 		
-		mv.addObject("name", name);		// redirect로 detail 메소드로 보내기위한 매개변수
+		mv.addObject("name", name);								// redirect로 detail 메소드로 보내기위한 매개변수
 		
 		mv.setViewName("redirect:/admin/detail");
 		
